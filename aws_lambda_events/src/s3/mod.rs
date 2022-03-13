@@ -125,14 +125,17 @@ pub struct S3Object {
     /* This is not actually part of the message. Java calculates this: https://github.com/aws/aws-sdk-java/blob/6a4c873c71320ef0175ca1c13188e9c850a85e51/aws-java-sdk-s3/src/main/java/com/amazonaws/services/s3/event/S3EventNotification.java#L176-L183
     pub url_decoded_key: Option<String>, */
     /// The object size in bytes
+    #[serde(default)]
     pub size: Option<i64>,
 
     /// object version if bucket is versioning-enabled, otherwise null
-    #[serde(deserialize_with = "deserialize_lambda_string")]
+    // #[serde(deserialize_with = "deserialize_lambda_string")]
+    #[serde(default)]
     pub version_id: Option<String>,
 
     /// The object eTag??
-    #[serde(deserialize_with = "deserialize_lambda_string")]
+    // #[serde(deserialize_with = "deserialize_lambda_string")]
+    #[serde(default)]
     pub e_tag: Option<String>,
 
     /// The sequencer key provides a way to determine the sequence of events. Event notifications aren't guaranteed
@@ -148,7 +151,8 @@ pub struct S3Object {
     /// Note the following:
     /// - You can't use sequencer to determine order for events on different object keys.
     /// - The sequencers can be of different lengths. So, to compare these values, first right pad the shorter value with zeros, and then do a lexicographical comparison.
-    #[serde(deserialize_with = "deserialize_lambda_string")]
+    // #[serde(deserialize_with = "deserialize_lambda_string")]
+    #[serde(default)]
     pub sequencer: Option<String>,
 }
 
@@ -160,8 +164,8 @@ mod test {
 
     #[test]
     #[cfg(feature = "s3")]
-    fn example_s3_event() {
-        let data = include_bytes!("../generated/fixtures/example-s3-event.json");
+    fn example_s3_event_objectcreated_put() {
+        let data = include_bytes!("test_data/s3-event-objectcreated-put.json");
         let parsed: S3Event = serde_json::from_slice(data).unwrap();
         println!("--> {:?} <--", parsed);
         let output: String = serde_json::to_string(&parsed).unwrap();
@@ -169,13 +173,25 @@ mod test {
         assert_eq!(parsed, reparsed);
     }
 
-    // #[test]
-    // #[cfg(feature = "s3")]
-    // fn example_s3_event_with_decoded() {
-    //     let data = include_bytes!("../generated/fixtures/example-s3-event-with-decoded.json");
-    //     let parsed: S3Event = serde_json::from_slice(data).unwrap();
-    //     let output: String = serde_json::to_string(&parsed).unwrap();
-    //     let reparsed: S3Event = serde_json::from_slice(output.as_bytes()).unwrap();
-    //     assert_eq!(parsed, reparsed);
-    // }
+    #[test]
+    #[cfg(feature = "s3")]
+    fn example_s3_event_objectcreated_put_versioning() {
+        let data = include_bytes!("test_data/s3-event-objectcreated-put-versioning.json");
+        let parsed: S3Event = serde_json::from_slice(data).unwrap();
+        println!("--> {:?} <--", parsed);
+        let output: String = serde_json::to_string(&parsed).unwrap();
+        let reparsed: S3Event = serde_json::from_slice(output.as_bytes()).unwrap();
+        assert_eq!(parsed, reparsed);
+    }
+
+    #[test]
+    #[cfg(feature = "s3")]
+    fn example_s3_event_objectremoved_delete() {
+        let data = include_bytes!("test_data/s3-event-objectremoved-delete.json");
+        let parsed: S3Event = serde_json::from_slice(data).unwrap();
+        println!("--> {:?} <--", parsed);
+        let output: String = serde_json::to_string(&parsed).unwrap();
+        let reparsed: S3Event = serde_json::from_slice(output.as_bytes()).unwrap();
+        assert_eq!(parsed, reparsed);
+    }
 }

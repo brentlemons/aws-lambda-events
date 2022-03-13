@@ -1,0 +1,38 @@
+{
+    "Records": [
+        {
+            "eventVersion": "2.1",
+            "eventSource": "aws:s3",
+            "awsRegion": "us-east-1",
+            "eventTime": "2022-03-13T15:38:59.375Z",
+            "eventName": "ObjectCreated:Copy",
+            "userIdentity": {
+                "principalId": "AWS:AIPRINCIPALIDFWSXWHAY"
+            },
+            "requestParameters": {
+                "sourceIPAddress": "10.76.1.127"
+            },
+            "responseElements": {
+                "x-amz-request-id": "HNXRHBFC7CE8XWGJ",
+                "x-amz-id-2": "dADaa95agPTIgFZjFW83w9x0UTy1OG28t4RCFc63HMpsRBMZVUHwsQYaxlb5RUfS7APs1/2wtlS2tYJSnBX7xeH+VfH8NIYs"
+            },
+            "s3": {
+                "s3SchemaVersion": "1.0",
+                "configurationId": "aws-lambda-events-s3-no-versioning-notifications",
+                "bucket": {
+                    "name": "aws-lambda-events-s3-tests-no-versioning",
+                    "ownerIdentity": {
+                        "principalId": "APRINCIPALIDH1"
+                    },
+                    "arn": "arn:aws:s3:::aws-lambda-events-s3-tests-no-versioning"
+                },
+                "object": {
+                    "key": "simple_nothing_object_renamed.json",
+                    "size": 45,
+                    "eTag": "0399858e4ccb959bb4debd67fc590172",
+                    "sequencer": "00622E10135898B888"
+                }
+            }
+        }
+    ]
+}
