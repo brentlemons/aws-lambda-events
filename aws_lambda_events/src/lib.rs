@@ -32,6 +32,10 @@ pub mod cloudwatch_events;
 #[cfg(feature = "dynamodb")]
 pub mod dynamodb;
 
+/// AWS Lambda event definitions for S3.
+#[cfg(feature = "s3")]
+pub mod s3;
+
 /// AWS Lambda event definitions for SNS.
 #[cfg(feature = "sns")]
 pub mod sns;
